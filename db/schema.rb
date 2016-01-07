@@ -11,18 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105210255) do
+ActiveRecord::Schema.define(version: 20151225041956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "messages", force: :cascade do |t|
-    t.string   "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "lastname"
+    t.integer  "birth_year"
+    t.string   "city"
+    t.boolean  "employer"
+    t.boolean  "employee"
+    t.string   "image"
+    t.string   "email"
     t.string   "provider",               default: "email", null: false
     t.string   "uid",                    default: "",      null: false
     t.string   "encrypted_password",     default: "",      null: false
@@ -38,10 +40,6 @@ ActiveRecord::Schema.define(version: 20160105210255) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "name"
-    t.string   "nickname"
-    t.string   "image"
-    t.string   "email"
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"

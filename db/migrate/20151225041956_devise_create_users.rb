@@ -1,6 +1,17 @@
 class DeviseCreateUsers < ActiveRecord::Migration
   def up
     create_table(:users) do |t|
+
+      ## User Info
+      t.string  :name
+      t.string  :lastname
+      t.integer :birth_year
+      t.string  :city
+      t.boolean :employer
+      t.boolean :employee
+      t.string  :image
+      t.string  :email
+
       ## Required
       t.string :provider, :null => false, :default => "email"
       t.string :uid, :null => false, :default => ""
@@ -32,12 +43,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # t.integer  :failed_attempts, :default => 0, :null => false # Only if lock strategy is :failed_attempts
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
-
-      ## User Info
-      t.string :name
-      t.string :nickname
-      t.string :image
-      t.string :email
 
       ## Tokens
       t.json :tokens
