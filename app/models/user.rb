@@ -8,7 +8,6 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :lastname, :birth_year, :city
   validate :role?
 
-
   private
 
   def role?

@@ -32,6 +32,7 @@ RSpec.describe User, type: :model do
   it 'is invalid without at least employer or employee' do
     expect(build :user, employer: nil).to be_invalid
   end
+  
   it "can't be emplyer and employee at the same time" do
     employer_and_employee = build :user, employee: true
     expect(employer_and_employee).to be_invalid
