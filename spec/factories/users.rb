@@ -8,15 +8,25 @@ FactoryGirl.define do
     birth_year { Faker::Number.number(4) }
     city { Faker::Address.city }
     employer { true }
-  end
-
-  factory :employer do 
-    employer { true }
     employee { false }
-  end
 
-  factory :employee do 
-    employee { true }
-    employer { false }
+    factory :invalid_user do
+      email { nil }
+    end
+
+    factory :employer do
+      employer { true }
+      employee { false }
+    end
+
+    factory :employee do
+      employee { true }
+      employer { false }
+    end
+
+    factory :unroled do
+      employee { false }
+      employer { false }
+    end
   end
 end

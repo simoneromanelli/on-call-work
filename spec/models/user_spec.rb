@@ -30,7 +30,14 @@ RSpec.describe User, type: :model do
   end
 
   it 'is invalid without at least employer or employee' do
-    expect(build :user, employer: nil).to be_invalid
+    expect(build :unroled).to be_invalid
+  end
+
+  it 'is invalid if email is already taken' do
+    create(:user, email: '123@stella.com')
+    user_2 = build(:user, email: '123@stella.com')
+    user_2.valid?
+    expect(user_2.errors[:email]).to include 'has already been taken'
   end
   
   it "can't be emplyer and employee at the same time" do

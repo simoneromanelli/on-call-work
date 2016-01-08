@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
          :confirmable
   include DeviseTokenAuth::Concerns::User
 
-  validates_presence_of :name, :lastname, :birth_year, :city
+  validates :email, uniqueness: true
+  validates :email, :name, :lastname, :birth_year, :city, presence: true
   validate :role?
 
   private
