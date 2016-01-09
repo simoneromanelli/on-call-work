@@ -19,6 +19,7 @@ gem 'omniauth' # required for devise_token_auth
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'rename'
+gem 'pundit'
 
 group :development, :test do
   gem 'byebug'

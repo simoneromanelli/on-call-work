@@ -1,12 +1,14 @@
 class UsersController < RestrictedController
 
+  before_action only: [:index, :create] { authorize_class User}
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action only: [:show, :update, :destroy] { authorize_instace @user}
 
   def_param_group :user do
     param :user, Hash do
       param :name, String, 'Name of the user', required: true
       param :lastname, String, 'Lastname of of the user', required: true
-      param :birth_year, String, "User's birth year", required: true
+      param :birth_year, Integer, "User's birth year", required: true
       param :city, String, "User's city", required: true
       param :employer, [true, false], 'User is an employer. Required if employee is blank'
       param :employee, [true, false],  'User is an employee. Required if employer is blank'
@@ -27,14 +29,14 @@ class UsersController < RestrictedController
   def show
   end
 
-  # api! 'Create a new User'
-  # param_group :user
+  api! 'Create a new User'
+  param_group :user
   def create
     user = User.new user_params
     if user.save
       render json: user
     else
-      render json: {errors: user.errors.full_messages}
+      render json: { errors: user.errors.full_messages }
     end
   end
 
@@ -42,6 +44,7 @@ class UsersController < RestrictedController
   param :id, Integer, desc: 'User id'
   param_group :user
   def update
+    # @user.update
   end
 
   api! 'Delete user'

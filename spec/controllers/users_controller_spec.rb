@@ -15,12 +15,30 @@ RSpec.describe UsersController, type: :controller do
         expect(json.first['email']).to eq user.email
       end
     end
+
+    describe 'PUT #update' do
+      it 'Raise pundit error if try to update another user' do
+        create :user
+        user = create :user
+        UserHelper.authenticate_user(user, @request)
+
+        put :update, format: 'json', id: 1
+      end
+    end
   end
 
-  context 'When user is logged in' do
+  context 'When user is not logged in' do
     describe 'GET #index' do
       it 'return a 401 status' do
         get :index, {}
+        expect(response.status).to eq 401
+      end
+    end
+
+    describe 'PUT #update' do
+      it 'return a 401 status' do
+        create :user
+        put :update, format: 'json', id: 1
         expect(response.status).to eq 401
       end
     end
