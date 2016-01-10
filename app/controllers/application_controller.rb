@@ -10,5 +10,7 @@ class ApplicationController < ActionController::API
 
   def authorize_instace(instace)
     authorize instace
+  rescue Pundit::NotAuthorizedError => e
+    @policy_error = e.message.split('?').first
   end
 end

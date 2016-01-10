@@ -1,4 +1,5 @@
 class UserPolicy < ApplicationPolicy
+
   def index?
     true
   end
@@ -8,6 +9,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    byebug
+    @user.id == @record.id
   end
 end

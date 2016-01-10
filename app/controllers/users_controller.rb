@@ -10,8 +10,10 @@ class UsersController < RestrictedController
       param :lastname, String, 'Lastname of of the user', required: true
       param :birth_year, Integer, "User's birth year", required: true
       param :city, String, "User's city", required: true
-      param :employer, [true, false], 'User is an employer. Required if employee is blank'
-      param :employee, [true, false],  'User is an employee. Required if employer is blank'
+      param :employer, [true, false],
+            'Employer flag. Required if employee is blank'
+      param :employee, [true, false],
+            'Employee flag. Required if employer is blank'
     end
   end
 
@@ -27,6 +29,11 @@ class UsersController < RestrictedController
   api! 'Get the user'
   param :id, Integer, desc: 'User id'
   def show
+    if @policy_error
+      render status: 401, json: { errors: [@policy_error] }
+    else
+      render json: @user
+    end
   end
 
   api! 'Create a new User'
@@ -44,7 +51,13 @@ class UsersController < RestrictedController
   param :id, Integer, desc: 'User id'
   param_group :user
   def update
-    # @user.update
+    if @policy_error
+      render status: 401, json: { errors: [@policy_error] }
+    elsif @user.update(user_params)
+      render json: @user
+    else
+      render json: { errors: @user.errors.full_messages }
+    end
   end
 
   api! 'Delete user'

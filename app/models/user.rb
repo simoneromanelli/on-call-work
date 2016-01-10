@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   validates :email, :name, :lastname, :birth_year, :city, presence: true
   validate :role?
 
+  after_create :send_confirmation_instructions
   private
 
   def role?
