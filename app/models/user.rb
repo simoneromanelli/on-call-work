@@ -7,15 +7,18 @@ class User < ActiveRecord::Base
 
   validates :email, uniqueness: true
   validates :email, :name, :lastname, :birth_year, :city, presence: true
-  validate :role?
+  validate :role_coherence
 
   after_create :send_confirmation_instructions
+
+  has_many :feedbacks, class_name: 'Feedback', foreign_key: 'subject_id'
+  has_many :given_feedbacks, class_name: 'Feedback', foreign_key: 'writer_id'
   private
 
-  def role?
+  def role_coherence
     employer.blank? && employee.blank? &&
       errors.add(:base, 'Specify a role.')
     employer == true && employee == true &&
-      errors.add(:base, "can't have two roles at the same time.")
+      errors.add(:base, "Can't have two roles at the same time.")
   end
 end

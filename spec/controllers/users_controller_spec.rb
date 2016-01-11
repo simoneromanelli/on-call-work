@@ -1,14 +1,13 @@
 require 'rails_helper'
-require 'user_helper'
+require 'authorization_helper'
 RSpec.describe UsersController, type: :controller do
-
-  let(:valid_user) { attributes_for(:user) }
-  let(:invalid_user) { attributes_for(:invalid_user) }
+  let(:valid_attributes) { attributes_for(:user) }
+  let(:invalid_attributes) { attributes_for(:invalid_user) }
 
   context 'when user is logged in' do
     before :each do
       @logged_user = create :user
-      UserHelper.authenticate_user(@logged_user, @request)
+      AuthorizationHelper.authenticate_user(@logged_user, @request)
     end
 
     describe 'GET #index' do
@@ -31,8 +30,7 @@ RSpec.describe UsersController, type: :controller do
     describe 'PUT #update' do
       it 'return 401 unauthorized if try to update another user' do
         user = create :user
-        user_params = { format: 'json', id: user.id, user: valid_user }
-        UserHelper.authenticate_user(@logged_user, @request)
+        user_params = { format: 'json', id: user.id, user: valid_attributes }
 
         put :update, user_params
         json = JSON.parse(response.body)
@@ -42,7 +40,7 @@ RSpec.describe UsersController, type: :controller do
       it 'return error if params are not valid' do
         user_params = { format: 'json',
                         id: @logged_user.id,
-                        user: invalid_user
+                        user: invalid_attributes
                       }
 
         put :update, user_params
@@ -51,11 +49,13 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'update user if params are valid' do
-        user_params = { format: 'json', id: @logged_user.id, user: valid_user }
+        user_params = { format: 'json',
+                        id: @logged_user.id, user: valid_attributes
+                      }
 
         put :update, user_params
         json = JSON.parse(response.body)
-        expect(json[:name]).to eq valid_user['name']
+        expect(json[:name]).to eq valid_attributes['name']
       end
     end
 
@@ -95,21 +95,21 @@ RSpec.describe UsersController, type: :controller do
 
     describe 'POST #create' do
       it 'create a new user if user is valid' do
-        user_params = { format: 'json', user: valid_user }
+        user_params = { format: 'json', user: valid_attributes }
         post :create, user_params
         json = JSON.parse(response.body)
         expect(json.keys).not_to include 'errors'
       end
 
       it 'send a confirmation email after create' do
-        user_params = { format: 'json', user: valid_user }
+        user_params = { format: 'json', user: valid_attributes }
         post :create, user_params
         expect(ActionMailer::Base.deliveries.last.to)
-          .to include valid_user[:email]
+          .to include valid_attributes[:email]
       end
 
       it 'return error if user params are not invalid' do
-        user_params = { format: 'json', user: invalid_user }
+        user_params = { format: 'json', user: invalid_attributes }
         post :create, user_params
         json = JSON.parse(response.body)
         expect(json.keys).to include 'errors'

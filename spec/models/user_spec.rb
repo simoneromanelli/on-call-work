@@ -30,7 +30,9 @@ RSpec.describe User, type: :model do
   end
 
   it 'is invalid without at least employer or employee' do
-    expect(build :unroled).to be_invalid
+    user = build :unroled
+    user.valid?
+    expect(user.errors['base']).to include 'Specify a role.'
   end
 
   it 'is invalid if email is already taken' do
@@ -42,6 +44,8 @@ RSpec.describe User, type: :model do
   
   it "can't be emplyer and employee at the same time" do
     employer_and_employee = build :user, employee: true
-    expect(employer_and_employee).to be_invalid
+    employer_and_employee.valid?
+    expect(employer_and_employee.errors['base'])
+      .to include "Can't have two roles at the same time."
   end
 end
