@@ -14,7 +14,7 @@ RSpec.describe UsersController, type: :controller do
       it 'return a users JSON' do
         get :index, {}
         json = JSON.parse(response.body)
-        expect(json.first['email']).to eq @logged_user.email
+        expect(json['users'].first['email']).to eq @logged_user.email
       end
     end
 

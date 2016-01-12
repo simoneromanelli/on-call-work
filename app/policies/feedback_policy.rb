@@ -5,10 +5,10 @@ class FeedbackPolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    @user.id == @record.writer_id
   end
 
   def update?
-    @user.id == @record.writer_id
+    create?
   end
 end

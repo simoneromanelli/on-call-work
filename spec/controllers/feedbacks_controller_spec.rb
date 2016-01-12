@@ -6,20 +6,49 @@ RSpec.describe FeedbacksController, type: :controller do
   let(:invalid_attributes) { attributes_for(:invalid_feedback) }
 
   context 'when user is logged in' do
-    before :each do 
+    before :each do
       @logged_user = create :user
       AuthorizationHelper.authenticate_user(@logged_user, @request)
     end
+    let(:valid_attributes) do
+      attributes_for(:feedback)
+        .merge(subject_id: create(:user).id)
+        .merge(writer_id: @logged_user.id)
+    end
+    let(:invalid_attributes) do
+      attributes_for(:invalid_feedback)
+        .merge(subject_id: create(:user).id)
+        .merge(writer_id: @logged_user.id)
+    end
 
-    # describe 'GET #index' do
-    #   it 'assigns all feedbacks as @feedbacks' do
-    #     feedback = create :feedback
-    #     get :index, { format: 'json'}
-    #     json = JSON.parse(response.body)
-    #     expect(json.first['created_at']).to eq (feedback.created_at)
-    #     # expect(json).to eq([feedback.as_json])
-    #   end
-    # end
+    describe 'POST #create' do
+      it 'create feedback if params are valid' do
+        post :create,
+             format: 'json',
+             feedback: valid_attributes
+        json = JSON.parse(response.body)
+        expect(json['feedback']).to be_present
+      end
+
+      it 'fails if invalid params' do
+        post :create,
+             format: 'json',
+             feedback: invalid_attributes
+        json = JSON.parse(response.body)
+        expect(json['errors']).to include 'Text can\'t be blank'
+      end
+
+      it 'return policy error if user_id != current_user' do
+        user = create :user
+        valid_attributes['writer_id'] = user.id
+        post :create,
+             format: 'json',
+             feedback: valid_attributes
+        json = JSON.parse(response.body)
+        expect(json['errors']).to include 'not allowed to create'
+      end
+
+    end
 
     # describe 'GET #show' do
     #   it 'assigns the requested feedback as @feedback' do

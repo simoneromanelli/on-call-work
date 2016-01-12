@@ -29,9 +29,15 @@ FactoryGirl.define do
       employer { false }
     end
 
-    factory :user_withgiven_feedback do
+    factory :user_with_given_feedbacks do
       after(:build) do |user|
         3.times { user.given_feedbacks << build(:feedback) }
+      end
+    end
+
+    factory :user_with_feedbacks do
+      after(:build) do |user|
+        3.times { user.feedbacks << build(:feedback) }
       end
     end
   end

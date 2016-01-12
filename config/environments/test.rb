@@ -43,4 +43,5 @@ Rails.application.configure do
   #CUSTOM CONFIGURATION
   config.cache_classes = false
   config.action_mailer.default_url_options = {:host => "localhost:3000"}
+  # config.allow_concurrency = false
 end

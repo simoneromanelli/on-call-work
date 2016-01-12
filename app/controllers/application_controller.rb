@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   include Pundit
   include DeviseTokenAuth::Concerns::SetUserByToken
+  include ActionController::Serialization
 
   after_action :verify_authorized
 

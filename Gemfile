@@ -20,6 +20,7 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'rename'
 gem 'pundit'
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'byebug'

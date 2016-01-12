@@ -24,4 +24,6 @@ RSpec.describe Feedback, type: :model do
     expect(feedback.errors['base'])
       .to include 'Writer and subject must be different users'
   end
+
+  it 'is invalid without a work_offer'
 end

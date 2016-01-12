@@ -2,12 +2,12 @@ Rails.application.routes.draw do
   apipie
   mount_devise_token_auth_for 'User', at: 'auth'
   resources :users, except: [:new, :edit] do
-    resources :given_feedbaks,
-              only: [:index, :create],
+    resources :given_feedbacks,
+              only: [:index],
               controller: 'feedbacks/given_feedbacks'
-    # resources :received_feedbaks,
-    #           only: [:index, :create],
-    #           controller: 'ReceivedFeedbacksController'
+    resources :received_feedbacks,
+              only: [:index],
+              controller: 'feedbacks/received_feedbacks'
   end
-  resources :feedbacks, only: [:show, :update, :destroy]
+  resources :feedbacks, only: [:show, :create, :update, :destroy]
 end
