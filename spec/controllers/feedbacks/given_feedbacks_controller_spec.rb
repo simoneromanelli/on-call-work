@@ -3,7 +3,7 @@ require 'authorization_helper'
 
 module Feedbacks
   RSpec.describe GivenFeedbacksController, type: :controller do
-    before :each do 
+    before :each do
       @logged_user = create :user_with_given_feedbacks
       AuthorizationHelper.authenticate_user(@logged_user, @request)
     end
@@ -18,10 +18,10 @@ module Feedbacks
             .to eq given_feedbacks.size
         end
 
-        it 'return error if user doesn\'t exist' do 
+        it 'return error if user doesn\'t exist' do
           get :index, format: 'json', user_id: 0
           json = JSON.parse(response.body)
-          expect(json['errors']).to include 'Unknown user'
+          expect(json['errors']).to include 'Unknown feedback'
         end
       end
     end

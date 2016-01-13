@@ -20,7 +20,7 @@ RSpec.describe Feedbacks::ReceivedFeedbacksController, type: :controller do
       it 'return error if user doesn\'t exist' do
         get :index, format: 'json', user_id: 0
         json = JSON.parse(response.body)
-        expect(json['errors']).to include 'Unknown user'
+        expect(json['errors']).to include 'Unknown feedback'
       end
     end
   end

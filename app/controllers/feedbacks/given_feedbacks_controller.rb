@@ -8,7 +8,7 @@ module Feedbacks
       @given_feedbacks = User.find(params[:user_id]).given_feedbacks
       render json: @given_feedbacks, status: :ok
     rescue ActiveRecord::RecordNotFound
-      render json: { 'errors': ['Unknown user'] }
+      render json: { 'errors': ['Unknown feedback'] }
     end
   end
 end

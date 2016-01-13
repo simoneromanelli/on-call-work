@@ -10,19 +10,14 @@ class FeedbacksController < RestrictedController
       param :work_offer_id, Integer, 'Id of the work offer.', required: true
     end
   end
-  # before_action only: [:index, :create] { authorize_class Feedback}
   before_action :set_feedback, only: [:show, :update, :destroy]
-  # before_action only: [:show, :update, :destroy] { authorize_instace @feedback}
-
-  # GET /feedbacks
-  # GET /feedbacks.json
   def index
     authorize Feedback
   end
 
-  # GET /feedbacks/1
   # GET /feedbacks/1.json
   def show
+    authorize @feedback
     render json: @feedback
   end
 
@@ -45,13 +40,14 @@ class FeedbacksController < RestrictedController
   # PATCH/PUT /feedbacks/1
   # PATCH/PUT /feedbacks/1.json
   def update
-    @feedback = Feedback.find(params[:id])
-
-    if @feedback.update(feedback_params)
-      head :no_content
+    authorize @feedback
+    if @feedback.update(updatable_params)
+      render json: @feedback, status: :ok, location: @feedback
     else
       render json: @feedback.errors, status: :unprocessable_entity
     end
+  rescue Pundit::NotAuthorizedError => e
+    render status: 401, json: { errors: [e.message.split('?').first] }
   end
 
   # DELETE /feedbacks/1
@@ -66,9 +62,15 @@ class FeedbacksController < RestrictedController
 
     def set_feedback
       @feedback = Feedback.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { 'errors': ['Unknown feedback'] }
     end
 
     private
+
+    def updatable_params
+      params.require(:feedback).permit([:text])
+    end
 
     def feedback_params
       params.require(:feedback).permit(
