@@ -9,5 +9,5 @@ Rails.application.routes.draw do
               only: [:index],
               controller: 'feedbacks/received_feedbacks'
   end
-  resources :feedbacks, only: [:show, :create, :update, :destroy]
+  resources :feedbacks, only: [:show, :create, :update]
 end
