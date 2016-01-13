@@ -1,11 +1,10 @@
 module Feedbacks
-  class GivenFeedbacksController < RestrictedController
-
+  class GivenFeedbacksController < FeedbacksController
     api! 'List of the feedback given by the current user'
     param :id, Integer, desc: 'User id', required: true
 
     def index
-      authorize Feedback
+      super
       @given_feedbacks = User.find(params[:user_id]).given_feedbacks
       render json: @given_feedbacks, status: :ok
     rescue ActiveRecord::RecordNotFound
@@ -13,4 +12,3 @@ module Feedbacks
     end
   end
 end
- 

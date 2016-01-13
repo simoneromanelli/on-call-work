@@ -1,7 +1,7 @@
 class FeedbacksController < RestrictedController
 
-  def_param_group :given_feedback do
-    param :given_feedback, Hash, required: true do
+  def_param_group :feedback do
+    param :feedback, Hash, required: true do
       param :user_id, Integer,
             desc: 'id of the user that create the feedback.', required: true
       param :rating, [1, 2, 3, 4, 5], 'Rate for the user.', required: true
@@ -11,15 +11,13 @@ class FeedbacksController < RestrictedController
     end
   end
   # before_action only: [:index, :create] { authorize_class Feedback}
-  # before_action :set_feedback, only: [:show, :update, :destroy]
+  before_action :set_feedback, only: [:show, :update, :destroy]
   # before_action only: [:show, :update, :destroy] { authorize_instace @feedback}
 
   # GET /feedbacks
   # GET /feedbacks.json
   def index
-    @feedbacks = Feedback.all
-    
-    render json: @feedbacks
+    authorize Feedback
   end
 
   # GET /feedbacks/1
@@ -28,8 +26,8 @@ class FeedbacksController < RestrictedController
     render json: @feedback
   end
 
-  api! 'Create feedback'
-  param_group :given_feedback
+  # api! 'Create feedback'
+  # param_group :feedback
 
   def create
     @feedback = Feedback.new feedback_params
