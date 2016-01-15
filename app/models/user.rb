@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
 
   has_many :feedbacks, class_name: 'Feedback', foreign_key: 'subject_id'
   has_many :given_feedbacks, class_name: 'Feedback', foreign_key: 'writer_id'
+  has_many :work_offers, class_name: 'WorkOffer', foreign_key: 'bidder_id'
+  has_many :jobs, class_name: 'WorkOffer', foreign_key: 'elected_id'
+
   private
 
   def role_coherence
