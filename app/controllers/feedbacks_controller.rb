@@ -19,6 +19,8 @@ class FeedbacksController < RestrictedController
   def show
     authorize @feedback
     render json: @feedback
+  rescue ActiveRecord::RecordNotFound
+    render json: { 'errors': ['Unknown feedback'] }
   end
 
   # api! 'Create feedback'

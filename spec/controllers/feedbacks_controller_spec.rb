@@ -2,8 +2,6 @@ require 'rails_helper'
 require 'authorization_helper'
 
 RSpec.describe FeedbacksController, type: :controller do
-  let(:valid_attributes) { attributes_for(:feedback) }
-  let(:invalid_attributes) { attributes_for(:invalid_feedback) }
 
   context 'when user is logged in' do
     before :each do

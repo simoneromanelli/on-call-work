@@ -29,7 +29,9 @@ group :development, :test do
   gem 'guard-rspec'
 end
 
-gem 'faker', '~> 1.4.3', group: :test
+group :test do
+  gem 'faker', '~> 1.4.3'
+end
 
 group :development do
   gem 'web-console', '~> 2.0'

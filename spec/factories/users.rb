@@ -19,6 +19,36 @@ FactoryGirl.define do
       employee { false }
     end
 
+    factory :employer_with_works_offers_applied_and_reviewed_from_both do
+      employer { true }
+      employee { false }
+      after(:create) do |employer|
+        puts employer.id
+        2.times do
+          employee = create(:employee)
+          employer.work_offers << create(
+            :work_offer,
+            bidder_id: employer.id,
+            elected_id: employee.id
+          )
+          employer.work_offers.each do |work_offer|
+            work_offer.feedbacks << create(
+              :feedback,
+              subject_id: employee.id,
+              writer_id: employer.id,
+              work_offer_id: work_offer.id
+            )
+            work_offer.feedbacks << create(
+              :feedback,
+              subject_id: employer.id,
+              writer_id: employee.id,
+              work_offer_id: work_offer.id
+            )
+          end
+        end
+      end
+    end
+
     factory :employee do
       employee { true }
       employer { false }

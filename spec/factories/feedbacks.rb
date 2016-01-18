@@ -6,9 +6,9 @@ FactoryGirl.define do
     text { Faker::Lorem.sentence }
     rating { Faker::Number.between(1, 5) }
     # association :subject, factory: :work_offer
-    
+
     factory :invalid_feedback do
       text { nil }
     end
   end
-end 
+end
