@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :conversations, except: [:new, :edit]
   resources :job_applications, except: [:new, :edit]
   resources :work_offers, except: [:new, :edit]
   apipie

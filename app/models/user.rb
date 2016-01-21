@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :jobs, class_name: 'WorkOffer', foreign_key: 'elected_id'
   has_many :job_applications
   has_many :applied_work_offers, through: :job_applications
+  has_many :conversation, class_name: 'Conversation', foreign_key: 'sender_id'
 
   private
 

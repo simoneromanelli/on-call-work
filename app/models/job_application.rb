@@ -1,6 +1,6 @@
 #
 class JobApplication < ActiveRecord::Base
-  validates :user_id, :work_offer, presence: true
+  validates :user_id, :work_offer_id, presence: true
   validate :user_coherence
 
   belongs_to :user
