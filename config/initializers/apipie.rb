@@ -1,5 +1,5 @@
 Apipie.configure do |config|
-  config.app_name                = "ApiWebServer"
+  config.app_name                = "OnCallWork"
   config.api_base_url            = "/api"
   config.doc_base_url            = "/apipie"
   config.validate                = false

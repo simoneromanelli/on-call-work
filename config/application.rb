@@ -15,7 +15,7 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module ApiWebServer
+module OnCallWork
   class Application < Rails::Application
     config.api_only = true
     config.middleware.use ActionDispatch::Flash

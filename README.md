@@ -1,7 +1,7 @@
-# api_web_server
+# api_web_service
 
-This application provides a basic environment that can be extended to develope a Ruby on Rails API web server.
-An authentication layer is implemented and it is based on [devise](https://github.com/plataformatec/devise) and [devise_token_auth](https://github.com/lynndylanhurley/devise_token_auth). 
+This application provides a basic environment that can be extended to develope a Ruby on Rails API web service.
+An authentication layer is implemented and it is based on [devise](https://github.com/plataformatec/devise) and [devise_token_auth](https://github.com/lynndylanhurley/devise_token_auth).
 If you need to restrict access to actions of specific controller, it should extends RestrictedController.
 To access to restricted actions the header resquest must includes the the following parameters
   - access-token
@@ -9,9 +9,9 @@ To access to restricted actions the header resquest must includes the the follow
   - client
 
 plus ```application/json``` as Content-type.
-  
+
 You can find the relatives value in the response header after performing the login through a POST request to /auth/sign_in
-with parameters 
+with parameters
 ```{"email":"user@example.com","password":"password"}``` plus ```application/json``` as Content-type.
 
 ### Installation
@@ -24,9 +24,9 @@ $ rails s
 ```
 ### Production
 
-Remember to propertly configure the app editing ```config/initializer/devise_token_auth.rb``` and ```config/application.rb``` at the line: 
+Remember to propertly configure the app editing ```config/initializer/devise_token_auth.rb``` and ```config/application.rb``` at the line:
 ```
-config.middleware.use Rack::Cors do 
+config.middleware.use Rack::Cors do
     # Your configurations
 end
 ```
