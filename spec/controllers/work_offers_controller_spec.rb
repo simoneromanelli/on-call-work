@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'authorization_helper'
 
 RSpec.describe WorkOffersController, type: :controller do
 
@@ -12,7 +11,7 @@ RSpec.describe WorkOffersController, type: :controller do
     describe 'GET #index' do
       it 'return the work_offers list' do
         work_offer = create(:work_offer)
-        get :index, { format: 'json' }
+        get :index, format: 'json'
         expect(assigns(:work_offers)).to match_array([work_offer])
       end
     end
@@ -116,7 +115,7 @@ RSpec.describe WorkOffersController, type: :controller do
       end
 
       it 'return error if unknown work offer' do
-        put :update, format: 'json', id: 0
+        delete :destroy, format: 'json', id: 0
         json = JSON.parse(response.body)
         expect(json['errors']).to include 'Unknown work offer'
       end

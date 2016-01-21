@@ -6,6 +6,7 @@ class WorkOffer < ActiveRecord::Base
             :date_time,
             :bidder_id,
             presence: true
+
   validate :users_coherence,
            :bidder_coherence,
            :elected_coerence,
@@ -15,7 +16,10 @@ class WorkOffer < ActiveRecord::Base
 
   belongs_to :bidder, class_name: 'User', foreign_key: 'bidder_id'
   belongs_to :elected, class_name: 'User', foreign_key: 'elected_id'
+
   has_many :feedbacks
+  has_many :job_applications
+  has_many :applicants, through: :job_applications
 
   private
 

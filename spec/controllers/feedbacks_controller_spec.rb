@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'authorization_helper'
 
 RSpec.describe FeedbacksController, type: :controller do
 
@@ -12,6 +11,7 @@ RSpec.describe FeedbacksController, type: :controller do
       attributes_for(:feedback)
         .merge(subject_id: create(:user).id)
         .merge(writer_id: @logged_user.id)
+        .merge(work_offer_id: create(:work_offer).id)
     end
     let(:invalid_attributes) do
       attributes_for(:invalid_feedback)

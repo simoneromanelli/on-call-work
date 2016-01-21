@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'authorization_helper'
+
 RSpec.describe UsersController, type: :controller do
   let(:valid_attributes) { attributes_for(:user) }
   let(:invalid_attributes) { attributes_for(:invalid_user) }

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :job_applications, except: [:new, :edit]
   resources :work_offers, except: [:new, :edit]
   apipie
   mount_devise_token_auth_for 'User', at: 'auth'
