@@ -1,59 +1,28 @@
-class ConversationsController < ApplicationController
+class ConversationsController < RestrictedController
+  before_action :set_user, only: [:index]
   before_action :set_conversation, only: [:show, :update, :destroy]
 
-  # GET /conversations
-  # GET /conversations.json
+  api! 'Return the not archived conversation for the given user'
+  param :user_id, Integer, required: true
   def index
-    @conversations = Conversation.all
-
+    authorize @user, :owner?
+    @conversations = @user.conversations
     render json: @conversations
-  end
-
-  # GET /conversations/1
-  # GET /conversations/1.json
-  def show
-    render json: @conversation
-  end
-
-  # POST /conversations
-  # POST /conversations.json
-  def create
-    @conversation = Conversation.new(conversation_params)
-
-    if @conversation.save
-      render json: @conversation, status: :created, location: @conversation
-    else
-      render json: @conversation.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /conversations/1
-  # PATCH/PUT /conversations/1.json
-  def update
-    @conversation = Conversation.find(params[:id])
-
-    if @conversation.update(conversation_params)
-      head :no_content
-    else
-      render json: @conversation.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /conversations/1
-  # DELETE /conversations/1.json
-  def destroy
-    @conversation.destroy
-
-    head :no_content
+  rescue Pundit::NotAuthorizedError => e
+    render status: 401, json: { errors: [e.message.split('?').first] }
   end
 
   private
 
-    def set_conversation
-      @conversation = Conversation.find(params[:id])
-    end
+  def set_user
+    @user = User.find(params['user_id'])
+  rescue ActiveRecord::RecordNotFound
+    render json: { 'errors': ['Unknown user'] }
+  end
 
-    def conversation_params
-      params.require(:conversation).permit(:sender_id, :recipient_id)
-    end
+  def set_conversation
+    @conversation = Conversation.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { 'errors': ['Unknown work offer'] }
+  end
 end

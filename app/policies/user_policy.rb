@@ -1,5 +1,9 @@
 class UserPolicy < ApplicationPolicy
 
+  def owner?
+    @user.id == @record.id
+  end
+
   def index?
     true
   end
@@ -9,6 +13,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    @user.id == @record.id
+    owner?
   end
 end

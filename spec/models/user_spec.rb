@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it 'is valid with email, password, name, surname, birth_year and city.' do 
+  it 'is valid with email, password, name, surname, birth_year and city.' do
     expect(build :user).to be_valid
   end
 
@@ -41,11 +41,19 @@ RSpec.describe User, type: :model do
     user_2.valid?
     expect(user_2.errors[:email]).to include 'has already been taken'
   end
-  
+
   it "can't be emplyer and employee at the same time" do
     employer_and_employee = build :user, employee: true
     employer_and_employee.valid?
     expect(employer_and_employee.errors['base'])
       .to include "Can't have two roles at the same time."
+  end
+
+  it 'return conversations on call .conversations' do
+    conversation = create(:conversation)
+    user_1 = conversation.sender
+    user_2 = conversation.recipient
+    users = conversation.users
+    expect(users.pluck(:id)).to match_array [user_1.id, user_2.id]
   end
 end

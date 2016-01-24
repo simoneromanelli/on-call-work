@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :conversations, except: [:new, :edit]
   resources :job_applications, except: [:new, :edit]
   resources :work_offers, except: [:new, :edit]
   apipie
@@ -11,6 +10,7 @@ Rails.application.routes.draw do
     resources :received_feedbacks,
               only: [:index],
               controller: 'feedbacks/received_feedbacks'
+    resources :conversations, except: [:new, :edit]
   end
   resources :feedbacks, only: [:show, :create, :update]
 end

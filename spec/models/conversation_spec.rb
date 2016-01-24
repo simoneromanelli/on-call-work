@@ -11,4 +11,12 @@ RSpec.describe Conversation, type: :model do
     expect(conversation.errors[:base])
       .to include 'Conversations can only happend between employer and employee'
   end
+
+  it 'return the conversation partecipants calling .users' do
+    conversation = create(:conversation)
+    user_1 = conversation.sender_id
+    user_2 = conversation.recipient_id
+    users_ids = conversation.users.pluck(:id)
+    expect(users_ids).to match_array([user_1, user_2])
+  end
 end

@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  # Include default devise modules.
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable
@@ -17,7 +16,18 @@ class User < ActiveRecord::Base
   has_many :jobs, class_name: 'WorkOffer', foreign_key: 'elected_id'
   has_many :job_applications
   has_many :applied_work_offers, through: :job_applications
-  has_many :conversation, class_name: 'Conversation', foreign_key: 'sender_id'
+  #has_many :conversations throught custom method
+
+  # has_many :conversations, -> (user){ where("conversations.sender_id = :user_id OR conversations.recipient_id = :user_id", user_id: user.id) }
+
+  def conversations
+    Conversation
+      .where(
+        "conversations.sender_id = :user_id
+        OR conversations.recipient_id = :user_id",
+        user_id: id
+      )
+  end
 
   private
 

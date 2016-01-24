@@ -3,8 +3,7 @@ class CreateConversations < ActiveRecord::Migration
     create_table :conversations do |t|
       t.integer :sender_id
       t.integer :recipient_id
-      t.boolean :archived_by_sender, default: false
-      t.boolean :archived_by_recipient, default: false
+      t.boolean :archived, default: false
 
       t.timestamps null: false
     end
