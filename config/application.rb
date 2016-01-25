@@ -25,8 +25,8 @@ module OnCallWork
         origins '*'
         resource '*',
           :headers => :any,
-          # :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
-          :expose => ['Authorization'],
+          :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+          # :expose => ['Authorization'],
           :methods => [:get, :post, :options, :delete, :put]
       end
     end

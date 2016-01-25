@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 5
+  host: localhost
+
+development:
+  <<: *default
+  database: on_call_work_development
+  host: localhost
+  username: administrator
+  password: password
+test:
+  <<: *default
+  database: on_call_work_test
+  host: localhost
+  username: administrator
+  password: password
+# production:
+#   <<: *default
+#   database: on_call_work_production
+#   username: on_call_work
+#   password: <%= ENV['ON_CALL_WORK_DATABASE_PASSWORD'] %>

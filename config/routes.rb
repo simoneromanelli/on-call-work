@@ -10,7 +10,8 @@ Rails.application.routes.draw do
     resources :received_feedbacks,
               only: [:index],
               controller: 'feedbacks/received_feedbacks'
-    resources :conversations, except: [:new, :edit]
+    resources :conversations, only: [:index]
   end
   resources :feedbacks, only: [:show, :create, :update]
+  resources :messages, only: [:create, :update, :destroy]
 end
