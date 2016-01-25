@@ -1,5 +1,5 @@
 #
-class JobApplicationsController < ApplicationController
+class JobApplicationsController < RestrictedController
   def_param_group :job_application do
     param :job_application, Hash, required: true do
       param :user_id, Integer,
